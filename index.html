@@ -1,0 +1,1181 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+
+    <script src="lstD.js"></script>
+    <script src="lstM.js"></script>
+    <script src="lstK.js"></script>
+    <script src="lstC.js"></script>
+
+    <link href="nv.d3.css" rel="stylesheet" type="text/css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js" charset="utf-8"></script>
+    <script src="nv.d3.js"></script>
+    <script src="stream_layers.js"></script>
+
+    <style>
+        text {
+            font: 12px sans-serif;
+        }
+
+        svg {
+            display: block;
+            float: none;
+            height: 350px !important;
+            width: 750px !important;
+        }
+    </style>
+
+    <link rel="shortcut icon" type="image/x-icon" href="/site/images/satellite.png" />
+
+    <title>Lockdown Effect</title>
+</head>
+
+<body onload="functionLSTDelhi(); functionLSTMumbai(); functionLSTKolkata(); functionLSTChennai();">
+
+    <!-- <body> -->
+    <!-- Nav Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">The Lockdown Effect</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="https://github.com/chaitanyaj14/LockdownEffect.git">GitHub</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="https://earthengine.google.com/">Earth Engine</a>
+                </li>
+
+            </ul>
+        </div>
+    </nav>
+    <div class="container-fluid mt-1">
+        <!-- Side Pills -->
+        <div class="row">
+            <div class="col-3">
+                <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                    <a class="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab"
+                        aria-controls="v-pills-home" aria-selected="true">Temperature NEX-GDDP</a>
+                    <a class="nav-link" id="v-pills-tempLST-tab" data-toggle="pill" href="#v-pills-tempLST" role="tab"
+                        aria-controls="v-pills-tempLST" aria-selected="false">Land Surface Temperature</a>
+                    <a class="nav-link" id="v-pills-aeroB-tab" data-toggle="pill" href="#v-pills-aeroB" role="tab"
+                        aria-controls="v-pills-aeroB" aria-selected="false">Aerosol Depth - Blue</a>
+                    <a class="nav-link" id="v-pills-aeroG-tab" data-toggle="pill" href="#v-pills-aeroG" role="tab"
+                        aria-controls="v-pills-aeroG" aria-selected="false">Aerosol Depth - Green</a>
+                </div>
+            </div>
+            <div class="col-9">
+                <div class="tab-content" id="v-pills-tabContent">
+                    <!-- Temperature Predicted NASA -->
+                    <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel"
+                        aria-labelledby="v-pills-home-tab">
+                        <!-- Card - GEE Maps, Analysis and Metadeta -->
+                        <div class="card ">
+                            <div class="card-header">
+                                <ul class="nav nav-tabs card-header-tabs pull-right" id="tempTab" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home"
+                                            role="tab" aria-controls="home" aria-selected="true">Map</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="analysis-tab" data-toggle="tab" href="#analysis"
+                                            role="tab" aria-controls="analysis" aria-selected="false">Analysis</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="data-tab" data-toggle="tab" href="#data" role="tab"
+                                            aria-controls="data" aria-selected="false">Analysed Data</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="meta-tab" data-toggle="tab" href="#meta" role="tab"
+                                            aria-controls="meta" aria-selected="false">Meta Data</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="card-body">
+                                <div class="tab-content" id="tempTabContent">
+                                    <div class="tab-pane fade show active" id="home" role="tabpanel"
+                                        aria-labelledby="home-tab">
+                                        <iframe
+                                            src="https://javascriptpractice.users.earthengine.app/view/temperaturenex-gddpindia"
+                                            frameborder="5" width="890" , height="435">Can't render page</iframe><br>
+                                    </div>
+                                    <div class="tab-pane fade" id="analysis" role="tabpanel"
+                                        aria-labelledby="analysis-tab" style="align-content: center;">
+                                        <div id="carouselExampleControls1" class="carousel slide" data-ride="carousel">
+                                            <div class="carousel-inner">
+                                                <div class="carousel-item active">
+                                                    <h2>Delhi</h2>
+                                                    <svg id="test1" class="mypiechart"
+                                                        style="padding-left: 250px;"></svg>
+
+                                                    <script>
+                                                        var Delhi = [
+                                                            { key: "2018", y: 306.97, color: "#5F5" },
+                                                            { key: "2019", y: 306.98 },
+                                                            { key: "2020", y: 307.17 }
+                                                        ];
+
+                                                        var height = 350;
+                                                        var width = 750;
+
+                                                        nv.addGraph(function () {
+                                                            var chart = nv.models.pieChart()
+                                                                .x(function (d) { return d.key })
+                                                                .y(function (d) { return d.y })
+                                                                .width(width)
+                                                                .height(height)
+                                                                .showTooltipPercent(true);
+
+                                                            d3.select("#test1")
+                                                                .datum(Delhi)
+                                                                .transition().duration(1200)
+                                                                .attr('width', width)
+                                                                .attr('height', height)
+                                                                .call(chart);
+
+                                                            return chart;
+                                                        });
+                                                    </script>
+                                                </div>
+                                                <div class="carousel-item">
+                                                    <h2>Mumbai</h2>
+                                                    <svg id="test2" class="mypiechart"
+                                                        style="padding-left: 250px;"></svg>
+
+                                                    <script>
+                                                        var Mumbai = [
+                                                            { key: "2018", y: 306.06, color: "#5F5" },
+                                                            { key: "2019", y: 305.92 },
+                                                            { key: "2020", y: 306.10 }
+                                                        ];
+
+                                                        var height = 350;
+                                                        var width = 350;
+
+                                                        nv.addGraph(function () {
+                                                            var chart = nv.models.pieChart()
+                                                                .x(function (d) { return d.key })
+                                                                .y(function (d) { return d.y })
+                                                                .width(width)
+                                                                .height(height)
+                                                                .showTooltipPercent(true);
+
+                                                            d3.select("#test2")
+                                                                .datum(Mumbai)
+                                                                .transition().duration(1200)
+                                                                .attr('width', width)
+                                                                .attr('height', height)
+                                                                .call(chart);
+
+                                                            return chart;
+                                                        });
+                                                    </script>
+                                                </div>
+                                                <div class="carousel-item">
+                                                    <h2>Kolkata</h2>
+                                                    <svg id="test3" class="mypiechart"
+                                                        style="padding-left: 250px;"></svg>
+
+                                                    <script>
+                                                        var Kolkata = [
+                                                            { key: "2018", y: 309.09, color: "#5F5" },
+                                                            { key: "2019", y: 309.21 },
+                                                            { key: "2020", y: 309.22 }
+                                                        ];
+
+                                                        var height = 350;
+                                                        var width = 350;
+
+                                                        nv.addGraph(function () {
+                                                            var chart = nv.models.pieChart()
+                                                                .x(function (d) { return d.key })
+                                                                .y(function (d) { return d.y })
+                                                                .width(width)
+                                                                .height(height)
+                                                                .showTooltipPercent(true);
+
+                                                            d3.select("#test3")
+                                                                .datum(Kolkata)
+                                                                .transition().duration(1200)
+                                                                .attr('width', width)
+                                                                .attr('height', height)
+                                                                .call(chart);
+
+                                                            return chart;
+                                                        });
+                                                    </script>
+                                                </div>
+                                                <div class="carousel-item">
+                                                    <h2>Chennai</h2>
+                                                    <svg id="test4" class="mypiechart"
+                                                        style="padding-left: 250px;"></svg>
+
+                                                    <script>
+                                                        var Chennai = [
+                                                            { key: "2018", y: 307.60, color: "#5F5" },
+                                                            { key: "2019", y: 307.67 },
+                                                            { key: "2020", y: 307.74 }
+                                                        ];
+
+                                                        var height = 350;
+                                                        var width = 350;
+
+                                                        nv.addGraph(function () {
+                                                            var chart = nv.models.pieChart()
+                                                                .x(function (d) { return d.key })
+                                                                .y(function (d) { return d.y })
+                                                                .width(width)
+                                                                .height(height)
+                                                                .showTooltipPercent(true);
+
+                                                            d3.select("#test4")
+                                                                .datum(Chennai)
+                                                                .transition().duration(1200)
+                                                                .attr('width', width)
+                                                                .attr('height', height)
+                                                                .call(chart);
+
+                                                            return chart;
+                                                        });
+                                                    </script>
+                                                </div>
+                                            </div>
+                                            <a class="carousel-control-prev" href="#carouselExampleControls1"
+                                                role="button" data-slide="prev">
+                                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                                <span class="sr-only">Previous</span>
+                                            </a>
+                                            <a class="carousel-control-next" href="#carouselExampleControls1"
+                                                role="button" data-slide="next">
+                                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                                <span class="sr-only">Next</span>
+                                            </a>
+                                        </div>
+
+                                    </div>
+                                    <div class="tab-pane fade" id="data" role="tabpanel" aria-labelledby="data-tab">
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">City</th>
+                                                    <th scope="col">2018</th>
+                                                    <th scope="col">2019</th>
+                                                    <th scope="col">2020</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <th scope="row">Delhi</th>
+                                                    <td>306.97</td>
+                                                    <td>306.98</td>
+                                                    <td>307.17</td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">Mumbai</th>
+                                                    <td>306.06</td>
+                                                    <td>305.92</td>
+                                                    <td>306.10</td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">Kolkata</th>
+                                                    <td>309.09</td>
+                                                    <td>309.21</td>
+                                                    <td>309.22</td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">Chennai</th>
+                                                    <td>307.60</td>
+                                                    <td>307.67</td>
+                                                    <td>307.74</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="tab-pane fade" id="meta" role="tabpanel" aria-labelledby="meta-tab">
+                                        <h2>NEX-GDDP: NASA Earth Exchange Global Daily Downscaled Climate Projections
+                                        </h2>
+                                        <p><strong>Dataset Availability:</strong> 1950-01-01T00:00:00 -
+                                            2099-12-31T00:00:00
+                                        </p>
+                                        <p><strong>Dataset Provider:</strong> NASA / CSU</p>
+                                        <p>The NASA NEX-GDDP dataset is comprised of downscaled climate scenarios for
+                                            the globe that are derived from the General Circulation Model (GCM) runs
+                                            conducted under the Coupled Model Intercomparison Project Phase 5 (CMIP5,
+                                            see Taylor et al. 2012) and across two of the four greenhouse gas emissions
+                                            scenarios known as Representative Concentration Pathways (RCPs, see
+                                            Meinshausen et al. 2011). The CMIP5 GCM runs were developed in support of
+                                            the Fifth Assessment Report of the Intergovernmental Panel on Climate Change
+                                            (IPCC AR5).
+                                        </p>
+                                        <p>
+                                            This dataset was prepared by the Climate Analytics Group and NASA Ames
+                                            Research Center using the NASA Earth Exchange, and distributed by the NASA
+                                            Center for Climate Simulation (NCCS).
+                                        </p>
+
+                                        <img src="/site/images/bandsTemp.PNG" alt="" width="890">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <!-- Land Surface Temperature -->
+                    <div class="tab-pane fade show" id="v-pills-tempLST" role="tabpanel"
+                        aria-labelledby="v-pills-tempLST-tab">
+                        <!-- Card - GEE Maps, Analysis and Metadeta -->
+                        <div class="card">
+                            <div class="card-header">
+                                <ul class="nav nav-tabs card-header-tabs pull-right" id="lstTab" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" id="home-tab" data-toggle="tab" href="#homeLST"
+                                            role="tab" aria-controls="home" aria-selected="true">Map</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="analysis-tab" data-toggle="tab" href="#analysisLST"
+                                            role="tab" aria-controls="analysis" aria-selected="false">Analysis</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="data-tab" data-toggle="tab" href="#dataLST" role="tab"
+                                            aria-controls="data" aria-selected="false">Analysed Data</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="meta-tab" data-toggle="tab" href="#metaLST" role="tab"
+                                            aria-controls="meta" aria-selected="false">Meta Data</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="card-body">
+                                <div class="tab-content" id="TabContent">
+                                    <div class="tab-pane fade show active" id="homeLST" role="tabpanel"
+                                        aria-labelledby="home-tab">
+                                        <iframe
+                                            src="https://javascriptpractice.users.earthengine.app/view/temperature-aqua-terra"
+                                            frameborder="5" width="890" , height="435">Can't render page
+                                        </iframe>
+                                        <br>
+                                    </div>
+                                    <div class="tab-pane fade" id="analysisLST" role="tabpanel"
+                                        aria-labelledby="analysis-tab">
+                                        <p></p>
+                                        <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+                                            <div class="carousel-inner" data-interval="false">
+                                                <div class="carousel-item active">
+                                                    <div id="chartContainerDelhi" style="height: 400px; ">
+                                                    </div>
+                                                </div>
+                                                <div class="carousel-item">
+                                                    <div id="chartContainerMumbai" style="height: 400px;"></div>
+                                                </div>
+                                                <div class="carousel-item">
+                                                    <div id="chartContainerKolkata" style="height: 400px;"></div>
+                                                </div>
+                                                <div class="carousel-item">
+                                                    <div id="chartContainerChennai" style="height: 400px;"></div>
+                                                </div>
+                                            </div>
+                                            <a class=" carousel-control-prev" href="#carouselExampleControls"
+                                                role="button" data-slide="prev">
+                                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                                <span class="sr-only">Previous</span>
+                                            </a>
+                                            <a class="carousel-control-next" href="#carouselExampleControls"
+                                                role="button" data-slide="next">
+                                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                                <span class="sr-only">Next</span>
+                                            </a>
+                                        </div>
+                                        <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+                                    </div>
+                                    <div class="tab-pane fade" id="dataLST" role="tabpanel" aria-labelledby="data-tab">
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col" rowspan="2" class="text-center">City
+                                                    </th>
+                                                    <th scope="col" colspan="3" class="text-center">Terra
+                                                    </th>
+                                                    <th scope="col" colspan="3" class="text-center">Aqua
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <thead>
+                                                <tr>
+                                                    <th scope="row"></th>
+                                                    <th scope="col">2018</th>
+                                                    <th scope="col">2019</th>
+                                                    <th scope="col">2020</th>
+
+                                                    <th scope="col">2018</th>
+                                                    <th scope="col">2019</th>
+                                                    <th scope="col">2020</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <th scope="row">Delhi</th>
+                                                    <td>15264.44</td>
+                                                    <td>15323.14</td>
+                                                    <td>15347.61</td>
+                                                    <td>15434.89</td>
+                                                    <td>15507.38</td>
+                                                    <td>15534.41</td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">Mumbai</th>
+                                                    <td>15617.78</td>
+                                                    <td>15591.6</td>
+                                                    <td>15564</td>
+                                                    <td>15843.04</td>
+                                                    <td>15864.62</td>
+                                                    <td>15819.59</td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">Kolkata</th>
+                                                    <td>15564.15</td>
+                                                    <td>15419.69</td>
+                                                    <td>15436.73</td>
+                                                    <td>15785.82</td>
+                                                    <td>15584</td>
+                                                    <td>15521.46</td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">Chennai</th>
+                                                    <td>15536</td>
+                                                    <td>15549.6</td>
+                                                    <td>15531.66</td>
+                                                    <td>15752.6</td>
+                                                    <td>15728.16</td>
+                                                    <td>15664.36</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="tab-pane fade" id="metaLST" role="tabpanel" aria-labelledby="meta-tab">
+                                        <h2>MYD11A1.006 Aqua Land Surface Temperature and Emissivity Daily
+                                            Global 1km
+                                        </h2>
+                                        <p><strong>Dataset Availability:</strong> 2002-07-04T00:00:00 -
+                                            Present
+                                        </p>
+                                        <p><strong>Dataset Provider:</strong> NASA LP DAAC at the USGS EROS
+                                            Center</p>
+                                        <p>The MYD11A1 V6 product provides daily land surface temperature
+                                            (LST) and
+                                            emissivity values in a 1200 x 1200 kilometer grid. The
+                                            temperature value is
+                                            derived from the MOD11_L2 swath product. Above 30 degrees
+                                            latitude, some
+                                            pixels may have multiple observations where the criteria for
+                                            clear-sky are
+                                            met. When this occurs, the pixel value is the average of all
+                                            qualifying
+                                            observations. Provided along with both the day-time and
+                                            night-time surface
+                                            temperature bands and their quality indicator layers are MODIS
+                                            bands 31 and
+                                            32 and six observation layers.
+                                        </p>
+
+                                        <h2>MOD11A1.006 Terra Land Surface Temperature and Emissivity Daily
+                                            Global 1km
+                                        </h2>
+                                        <p><strong>Dataset Availability:</strong> 2000-03-05T00:00:00 -
+                                            Present
+                                        </p>
+                                        <p><strong>Dataset Provider:</strong> NASA LP DAAC at the USGS EROS
+                                            Center</p>
+                                        <p>The MOD11A1 V6 product provides daily land surface temperature
+                                            (LST) and
+                                            emissivity values in a 1200 x 1200 kilometer grid. The
+                                            temperature value is
+                                            derived from the MOD11_L2 swath product. Above 30 degrees
+                                            latitude, some
+                                            pixels may have multiple observations where the criteria for
+                                            clear-sky are
+                                            met. When this occurs, the pixel value is the average of all
+                                            qualifying
+                                            observations. Provided along with both the day-time and
+                                            night-time surface
+                                            temperature bands and their quality indicator layers are MODIS
+                                            bands 31 and
+                                            32 and six observation layers.
+                                        </p>
+
+                                        <img src="/site/images/lst11.PNG" alt="" width="890">
+                                        <br><br>
+                                        <strong>Bitmask for QC_Day</strong>
+                                        <li>
+                                            Bits 0-1: Mandatory QA flags
+                                            <ul>0: LST produced, good quality, not necessary to examine more
+                                                detailed QA
+                                            </ul>
+                                            <ul>1: LST produced, other quality, recommend examination of
+                                                more detailed
+                                                QA</ul>
+                                            <ul>2: LST not produced due to cloud effects</ul>
+                                            <ul>3: LST not produced primarily due to reasons other than
+                                                cloud</ul>
+                                        </li>
+                                        <li>
+                                            Bits 2-3: Data quality flag
+                                            <ul>0: Good data quality</ul>
+                                            <ul>1: Other quality data</ul>
+                                            <ul>2: TBD</ul>
+                                            <ul>3: TBD</ul>
+                                        </li>
+                                        <li>
+                                            Bits 4-5: Emissivity error flag
+                                            <ul>0: Average emissivity error ≤ 0.01</ul>
+                                            <ul>1: Average emissivity error ≤ 0.02</ul>
+                                            <ul>2: Average emissivity error ≤ 0.04</ul>
+                                            <ul>3: Average emissivity error > 0.04</ul>
+                                        </li>
+                                        <li>
+                                            Bits 6-7: LST error flag
+                                            <ul>0: Average LST error ≤ 1K</ul>
+                                            <ul>1: Average LST error ≤ 2K</ul>
+                                            <ul>2: Average LST error ≤ 3K</ul>
+                                            <ul>3: Average LST error > 3K</ul>
+                                        </li>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- Aerosol Blue -->
+                    <div class="tab-pane fade show" id="v-pills-aeroB" role="tabpanel"
+                        aria-labelledby="v-pills-aeroB-tab">
+                        <!-- Card - GEE Maps, Analysis and Metadeta -->
+                        <div class="card">
+                            <div class="card-header">
+                                <ul class="nav nav-tabs card-header-tabs pull-right" id="aeroBTab" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" id="home-tab" data-toggle="tab" href="#homeAeroB"
+                                            role="tab" aria-controls="home" aria-selected="true">Map</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="analysis-tab" data-toggle="tab" href="#analysisAeroB"
+                                            role="tab" aria-controls="analysis" aria-selected="false">Analysis</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="data-tab" data-toggle="tab" href="#dataAeroB" role="tab"
+                                            aria-controls="data" aria-selected="false">Analysed Data</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="meta-tab" data-toggle="tab" href="#metaAeroB" role="tab"
+                                            aria-controls="meta" aria-selected="false">Meta Data</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="card-body">
+                                <div class="tab-content" id="TabContent">
+                                    <div class="tab-pane fade show active" id="homeAeroB" role="tabpanel"
+                                        aria-labelledby="home-tab">
+                                        <iframe
+                                            src="https://javascriptpractice.users.earthengine.app/view/aerosoldepth47blue"
+                                            frameborder="5" width="890" , height="435">Can't render page
+                                        </iframe>
+                                        <br>
+                                    </div>
+                                    <div class="tab-pane fade" id="analysisAeroB" role="tabpanel"
+                                        aria-labelledby="analysis-tab">
+                                        <div id="carouselExampleControls47" class="carousel slide" data-ride="carousel">
+                                            <div class="carousel-inner" data-interval="false">
+                                                <div class="carousel-item active">
+                                                    <div style="height: 400px;">
+                                                        <h2>Delhi</h2>
+                                                        <svg id="pieD47" class="mypiechart" style="max-width: 500px;margin: auto;"></svg>
+                                                        <script>
+                                                            var testdataD47 = [
+                                                                { key: "2018", y: 467.85 },
+                                                                { key: "2019", y: 413.55 },
+                                                                { key: "2020", y: 313 }
+                                                            ];
+                                                    
+                                                            var arcRadiusd47 = [
+                                                                { inner: 0, outer: 1 },
+                                                                { inner: 0, outer: 0.88 },
+                                                                { inner: 0, outer: 0.67 }
+                                                            ];
+                                                    
+                                                            var height = 350;
+                                                            var width = 350;
+                                                    
+                                                            nv.addGraph(function () {
+                                                                var chart = nv.models.pieChart()
+                                                                    .x(function (d) { return d.key })
+                                                                    .y(function (d) { return d.y })
+                                                                    .donut(true)
+                                                                    .showLabels(true)
+                                                                    .width(width)
+                                                                    .height(height)
+                                                                    .arcsRadius(arcRadiusd47)
+                                                                    .labelsOutside(true)
+                                                                    .id('donut3');
+                                                    
+                                                                d3.select("#pieD47")
+                                                                    .datum(testdataD47)
+                                                                    .transition().duration(1200)
+                                                                    .attr('width', width)
+                                                                    .attr('height', height)
+                                                                    .call(chart);
+                                                    
+                                                                return chart;
+                                                    
+                                                            });
+                                                        </script>
+                                                    </div>
+                                                </div>
+                                                <div class="carousel-item">
+                                                    <div style="height: 400px;">
+                                                        <h2>Mumbai</h2>
+                                                        <svg id="pieM47" class="mypiechart" style="max-width: 500px;margin: auto;"></svg>
+                                                        <script>
+                                                            var testdataM47 = [
+                                                                { key: "2018", y: 553.91 },
+                                                                { key: "2019", y: 522.84 },
+                                                                { key: "2020", y: 421.5 }
+                                                            ];
+                                                    
+                                                            var arcRadiusM47 = [
+                                                                { inner: 0, outer: 1 },
+                                                                { inner: 0, outer: 0.94 },
+                                                                { inner: 0, outer: 0.76 }
+                                                            ];
+                                                    
+                                                            var height = 350;
+                                                            var width = 350;
+                                                    
+                                                            nv.addGraph(function () {
+                                                                var chart = nv.models.pieChart()
+                                                                    .x(function (d) { return d.key })
+                                                                    .y(function (d) { return d.y })
+                                                                    .donut(true)
+                                                                    .showLabels(true)
+                                                                    .width(width)
+                                                                    .height(height)
+                                                                    .arcsRadius(arcRadiusM47)
+                                                                    .labelsOutside(true)
+                                                                    .id('donut3');
+                                                    
+                                                                d3.select("#pieM47")
+                                                                    .datum(testdataM47)
+                                                                    .transition().duration(1200)
+                                                                    .attr('width', width)
+                                                                    .attr('height', height)
+                                                                    .call(chart);
+                                                    
+                                                                return chart;
+                                                    
+                                                            });
+                                                        </script>
+                                                    </div>
+                                                </div>
+                                                <div class="carousel-item">
+                                                    <div style="height: 400px;">
+                                                        <h2>Kolkata</h2>
+                                                        <svg id="pieK47" class="mypiechart" style="max-width: 500px;margin: auto;"></svg>
+                                                        <script>
+                                                            var testdataK47 = [
+                                                                { key: "2018", y: 863.69 },
+                                                                { key: "2019", y: 527.41 },
+                                                                { key: "2020", y: 515.05 }
+                                                            ];
+                                                    
+                                                            var arcRadiusK47 = [
+                                                                { inner: 0, outer: 1 },
+                                                                { inner: 0, outer: 0.61 },
+                                                                { inner: 0, outer: 0.59 }
+                                                            ];
+                                                    
+                                                            var height = 350;
+                                                            var width = 350;
+                                                    
+                                                            nv.addGraph(function () {
+                                                                var chart = nv.models.pieChart()
+                                                                    .x(function (d) { return d.key })
+                                                                    .y(function (d) { return d.y })
+                                                                    .donut(true)
+                                                                    .showLabels(true)
+                                                                    .width(width)
+                                                                    .height(height)
+                                                                    .arcsRadius(arcRadiusK47)
+                                                                    .labelsOutside(true)
+                                                                    .id('donut3');
+                                                    
+                                                                d3.select("#pieK47")
+                                                                    .datum(testdataK47)
+                                                                    .transition().duration(1200)
+                                                                    .attr('width', width)
+                                                                    .attr('height', height)
+                                                                    .call(chart);
+                                                    
+                                                                return chart;
+                                                    
+                                                            });
+                                                        </script>
+                                                    </div>
+                                                </div>
+                                                <div class="carousel-item">
+                                                    <div style="height: 400px;">
+                                                        <h2>Chennai</h2>
+                                                        <svg id="pieC47" class="mypiechart" style="max-width: 500px;margin: auto;"></svg>
+                                                        <script>
+                                                            var testdataC47 = [
+                                                                { key: "2018", y: 876.64 },
+                                                                { key: "2019", y: 733.18 },
+                                                                { key: "2020", y: 651.2 }
+                                                            ];
+                                                    
+                                                            var arcRadiusC47 = [
+                                                                { inner: 0, outer: 1 },
+                                                                { inner: 0, outer: 0.83 },
+                                                                { inner: 0, outer: 0.74 }
+                                                            ];
+                                                    
+                                                            var height = 350;
+                                                            var width = 350;
+                                                    
+                                                            nv.addGraph(function () {
+                                                                var chart = nv.models.pieChart()
+                                                                    .x(function (d) { return d.key })
+                                                                    .y(function (d) { return d.y })
+                                                                    .donut(true)
+                                                                    .showLabels(true)
+                                                                    .width(width)
+                                                                    .height(height)
+                                                                    .arcsRadius(arcRadiusC47)
+                                                                    .labelsOutside(true)
+                                                                    .id('donut3');
+                                                    
+                                                                d3.select("#pieC47")
+                                                                    .datum(testdataC47)
+                                                                    .transition().duration(1200)
+                                                                    .attr('width', width)
+                                                                    .attr('height', height)
+                                                                    .call(chart);
+                                                    
+                                                                return chart;
+                                                    
+                                                            });
+                                                        </script>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <a class=" carousel-control-prev" href="#carouselExampleControls47"
+                                                role="button" data-slide="prev">
+                                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                                <span class="sr-only">Previous</span>
+                                            </a>
+                                            <a class="carousel-control-next" href="#carouselExampleControls47"
+                                                role="button" data-slide="next">
+                                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                                <span class="sr-only">Next</span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="dataAeroB" role="tabpanel"
+                                        aria-labelledby="data-tab">
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">City</th>
+                                                    <th scope="col">2018</th>
+                                                    <th scope="col">2019</th>
+                                                    <th scope="col">2020</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <th scope="row">Delhi</th>
+                                                    <td>467.85</td>
+                                                    <td>413.55</td>
+                                                    <td>313</td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">Mumbai</th>
+                                                    <td>553.91</td>
+                                                    <td>522.84</td>
+                                                    <td>421.5</td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">Kolkata</th>
+                                                    <td>863.69</td>
+                                                    <td>527.41</td>
+                                                    <td>515.05</td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">Chennai</th>
+                                                    <td>876.64</td>
+                                                    <td>733.18</td>
+                                                    <td>651.2</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="tab-pane fade" id="metaAeroB" role="tabpanel"
+                                        aria-labelledby="meta-tab">
+                                        <h2>MCD19A2.006: Terra & Aqua MAIAC Land Aerosol Optical Depth Daily
+                                            1km
+                                        </h2>
+                                        <p><strong>Dataset Availability:</strong> 2000-02-01T00:00:00 -
+                                            Present
+                                        </p>
+                                        <p><strong>Dataset Provider:</strong> NASA LP DAAC at the USGS EROS
+                                            Center</p>
+                                        <p>The MCD19A2 V6 data product is a MODIS Terra and Aqua combined
+                                            Multi-angle
+                                            Implementation of Atmospheric Correction (MAIAC) Land Aerosol
+                                            Optical Depth
+                                            (AOD) gridded Level 2 product produced daily at 1 km resolution.
+                                        </p>
+
+                                        <img src="/site/images/aerBand.PNG" alt="" width="890">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <!-- Aerosol Green -->
+                    <div class="tab-pane fade show" id="v-pills-aeroG" role="tabpanel"
+                        aria-labelledby="v-pills-aeroG-tab">
+                        <!-- Card - GEE Maps, Analysis and Metadeta -->
+                        <div class="card">
+                            <div class="card-header">
+                                <ul class="nav nav-tabs card-header-tabs pull-right" id="aeroGTab" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" id="home-tab" data-toggle="tab" href="#homeAeroG"
+                                            role="tab" aria-controls="home" aria-selected="true">Map</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="analysis-tab" data-toggle="tab" href="#analysisAeroG"
+                                            role="tab" aria-controls="analysis" aria-selected="false">Analysis</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="data-tab" data-toggle="tab" href="#dataAeroG" role="tab"
+                                            aria-controls="data" aria-selected="false">Analysed Data</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="meta-tab" data-toggle="tab" href="#metaAeroG" role="tab"
+                                            aria-controls="meta" aria-selected="false">Meta Data</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="card-body">
+                                <div class="tab-content" id="TabContent">
+                                    <div class="tab-pane fade show active" id="homeAeroG" role="tabpanel"
+                                        aria-labelledby="home-tab">
+                                        <iframe
+                                            src="https://javascriptpractice.users.earthengine.app/view/aerosoldepth55green"
+                                            frameborder="5" width="890" , height="435">Can't render page
+                                        </iframe>
+                                        <br>
+                                    </div>
+                                    <div class="tab-pane fade" id="analysisAeroG" role="tabpanel"
+                                        aria-labelledby="analysis-tab">
+                                        <div id="carouselExampleControls55" class="carousel slide" data-ride="carousel">
+                                            <div class="carousel-inner" data-interval="false">
+                                                <div class="carousel-item active">
+                                                    <div style="height: 400px;">
+                                                        <h2>Delhi</h2>
+                                                        <svg id="pieD55" class="mypiechart"
+                                                            style="max-width: 500px;margin: auto;"></svg>
+                                                        <script>
+                                                            var testdata3 = [
+                                                                { key: "2018", y: 366.3235294117647 },
+                                                                { key: "2019", y: 323.6938775510204 },
+                                                                { key: "2020", y: 243 }
+                                                            ];
+
+                                                            var arcRadius3 = [
+                                                                { inner: 0, outer: 1 },
+                                                                { inner: 0, outer: 0.88 },
+                                                                { inner: 0, outer: 0.66 }
+                                                            ];
+
+                                                            var height = 350;
+                                                            var width = 350;
+
+                                                            nv.addGraph(function () {
+                                                                var chart = nv.models.pieChart()
+                                                                    .x(function (d) { return d.key })
+                                                                    .y(function (d) { return d.y })
+                                                                    .donut(true)
+                                                                    .showLabels(true)
+                                                                    .width(width)
+                                                                    .height(height)
+                                                                    .arcsRadius(arcRadius3)
+                                                                    .labelsOutside(true)
+                                                                    .id('donut3');
+
+                                                                d3.select("#pieD55")
+                                                                    .datum(testdata3)
+                                                                    .transition().duration(1200)
+                                                                    .attr('width', width)
+                                                                    .attr('height', height)
+                                                                    .call(chart);
+
+                                                                return chart;
+
+                                                            });
+                                                        </script>
+                                                    </div>
+                                                </div>
+                                                <div class="carousel-item">
+                                                    <div style="height: 400px;">
+                                                        <h2>Mumbai</h2>
+                                                        <svg id="pieM55" class="mypiechart"
+                                                            style="max-width: 500px; margin: auto;"></svg>
+                                                        <script>
+                                                            var testdataM = [
+                                                                { key: "2018", y: 405.6842105263158 },
+                                                                { key: "2019", y: 398.06451612903226 },
+                                                                { key: "2020", y: 343 }
+                                                            ];
+
+                                                            var arcRadiusM = [
+                                                                { inner: 0, outer: 1 },
+                                                                { inner: 0, outer: 0.98 },
+                                                                { inner: 0, outer: 0.84 }
+                                                            ];
+
+                                                            var height = 350;
+                                                            var width = 350;
+
+                                                            nv.addGraph(function () {
+                                                                var chart = nv.models.pieChart()
+                                                                    .x(function (d) { return d.key })
+                                                                    .y(function (d) { return d.y })
+                                                                    .donut(true)
+                                                                    .showLabels(true)
+                                                                    .width(width)
+                                                                    .height(height)
+                                                                    .arcsRadius(arcRadiusM)
+                                                                    .labelsOutside(true)
+                                                                    .id('donut3');
+
+                                                                d3.select("#pieM55")
+                                                                    .datum(testdataM)
+                                                                    .transition().duration(1200)
+                                                                    .attr('width', width)
+                                                                    .attr('height', height)
+                                                                    .call(chart);
+
+                                                                return chart;
+
+                                                            });
+                                                        </script>
+                                                    </div>
+                                                </div>
+                                                <div class="carousel-item">
+                                                    <div style="height: 400px;">
+                                                        <h2>Kolkata</h2>
+                                                        <svg id="pieK55" class="mypiechart"
+                                                            style="max-width: 500px;margin: auto;"></svg>
+                                                        <script>
+                                                            var testdataK = [
+                                                                { key: "2018", y: 698.25 },
+                                                                { key: "2019", y: 440.70 },
+                                                                { key: "2020", y: 424.63 }
+                                                            ];
+
+                                                            var arcRadiusK = [
+                                                                { inner: 0, outer: 1 },
+                                                                { inner: 0, outer: 0.63 },
+                                                                { inner: 0, outer: 0.60 }
+                                                            ];
+
+                                                            var height = 350;
+                                                            var width = 350;
+
+                                                            nv.addGraph(function () {
+                                                                var chart = nv.models.pieChart()
+                                                                    .x(function (d) { return d.key })
+                                                                    .y(function (d) { return d.y })
+                                                                    .donut(true)
+                                                                    .showLabels(true)
+                                                                    .width(width)
+                                                                    .height(height)
+                                                                    .arcsRadius(arcRadiusK)
+                                                                    .labelsOutside(true)
+                                                                    .id('donut3');
+
+                                                                d3.select("#pieK55")
+                                                                    .datum(testdataK)
+                                                                    .transition().duration(1200)
+                                                                    .attr('width', width)
+                                                                    .attr('height', height)
+                                                                    .call(chart);
+
+                                                                return chart;
+
+                                                            });
+                                                        </script>
+                                                    </div>
+                                                </div>
+                                                <div class="carousel-item">
+                                                    <div style="height: 400px;">
+                                                        <h2>Chennai</h2>
+                                                        <svg id="pieC55" class="mypiechart"
+                                                            style="max-width: 500px;margin: auto;"></svg>
+                                                        <script>
+                                                            var testdataC = [
+                                                                { key: "2018", y: 726.15 },
+                                                                { key: "2019", y: 540.25 },
+                                                                { key: "2020", y: 459 }
+                                                            ];
+
+                                                            var arcRadiusC = [
+                                                                { inner: 0, outer: 1 },
+                                                                { inner: 0, outer: 0.74 },
+                                                                { inner: 0, outer: 0.63 }
+                                                            ];
+
+                                                            var height = 350;
+                                                            var width = 350;
+
+                                                            nv.addGraph(function () {
+                                                                var chart = nv.models.pieChart()
+                                                                    .x(function (d) { return d.key })
+                                                                    .y(function (d) { return d.y })
+                                                                    .donut(true)
+                                                                    .showLabels(true)
+                                                                    .width(width)
+                                                                    .height(height)
+                                                                    .arcsRadius(arcRadiusC)
+                                                                    .labelsOutside(true)
+                                                                    .id('donut3');
+
+                                                                d3.select("#pieC55")
+                                                                    .datum(testdataC)
+                                                                    .transition().duration(1200)
+                                                                    .attr('width', width)
+                                                                    .attr('height', height)
+                                                                    .call(chart);
+
+                                                                return chart;
+
+                                                            });
+                                                        </script>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <a class=" carousel-control-prev" href="#carouselExampleControls55"
+                                                role="button" data-slide="prev">
+                                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                                <span class="sr-only">Previous</span>
+                                            </a>
+                                            <a class="carousel-control-next" href="#carouselExampleControls55"
+                                                role="button" data-slide="next">
+                                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                                <span class="sr-only">Next</span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="dataAeroG" role="tabpanel"
+                                        aria-labelledby="data-tab">
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">City</th>
+                                                    <th scope="col">2018</th>
+                                                    <th scope="col">2019</th>
+                                                    <th scope="col">2020</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <th scope="row">Delhi</th>
+                                                    <td>366.32</td>
+                                                    <td>323.69</td>
+                                                    <td>243</td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">Mumbai</th>
+                                                    <td>405.68</td>
+                                                    <td>398.06</td>
+                                                    <td>343</td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">Kolkata</th>
+                                                    <td>698.25</td>
+                                                    <td>440.70</td>
+                                                    <td>424.63</td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">Chennai</th>
+                                                    <td>726.15</td>
+                                                    <td>540.25</td>
+                                                    <td>459</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="tab-pane fade" id="metaAeroG" role="tabpanel"
+                                        aria-labelledby="meta-tab">
+                                        <h2>MCD19A2.006: Terra & Aqua MAIAC Land Aerosol Optical Depth Daily
+                                            1km
+                                        </h2>
+                                        <p><strong>Dataset Availability:</strong> 2000-02-01T00:00:00 -
+                                            Present
+                                        </p>
+                                        <p><strong>Dataset Provider:</strong> NASA LP DAAC at the USGS EROS
+                                            Center</p>
+                                        <p>The MCD19A2 V6 data product is a MODIS Terra and Aqua combined
+                                            Multi-angle
+                                            Implementation of Atmospheric Correction (MAIAC) Land Aerosol
+                                            Optical Depth
+                                            (AOD) gridded Level 2 product produced daily at 1 km resolution.
+                                        </p>
+                                        <img src="/site/images/aerBand.PNG" alt="" width="890">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
